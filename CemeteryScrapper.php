@@ -39,6 +39,11 @@ class CemeteryScrapper {
 			'http://cemetery.townofbuchans.nf.ca/row_d/row_d.html',
 			'http://cemetery.townofbuchans.nf.ca/row_e/row_e.html',
 			'http://cemetery.townofbuchans.nf.ca/row_f/row_f.html',
+			'http://cemetery.townofbuchans.nf.ca/row_g/row_g.html',
+			'http://cemetery.townofbuchans.nf.ca/row_h/row_h.html',
+			'http://cemetery.townofbuchans.nf.ca/row_i/row_i.html',
+			'http://cemetery.townofbuchans.nf.ca/row_j/row_j.html',
+			'http://cemetery.townofbuchans.nf.ca/row_k/row_k.html',
 		);		
 
 		foreach ($urls as $url) {

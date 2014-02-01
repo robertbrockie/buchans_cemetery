@@ -41,17 +41,17 @@
 				<?php if (empty($sites)) { ?>
 					<p>Nothing found.</p>
 				<?php } else { ?>
-					<table border="1">
+					<table class="table">
 						<thead>
 							<tr>
-								<td>Row</td>
-								<td>Plot</td>
-								<td>Name</td>
-								<td>Note</td>
-								<td>Headstone</td>
+								<th>Row</th>
+								<th>Plot</th>
+								<th>Name</th>
+								<th>Note</th>
+								<th>Headstone</th>
 							</tr>
 						</thead>
-
+						<tbody>
 						<?php foreach ($sites as $site) { ?>
 							<tr>
 								<td><?= $site->getRow() ?></td>
@@ -61,6 +61,7 @@
 								<td><img src='<?= CemeterySiteHelper::getThumbnailURL($site) ?>'/></td>
 							</tr>
 						<?php } ?>
+						</tbody>
 					</table>
 				<?php } ?>
 			</div>
