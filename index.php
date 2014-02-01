@@ -1,8 +1,8 @@
 <?php
 
-	include('CemeterySite.php');
-	include('CemeterySiteDAO.php');
-	include('CemeterySiteHelper.php');
+	include('/model/CemeterySite.php');
+	include('/model/CemeterySiteDAO.php');
+	include('/helper/CemeterySiteHelper.php');
 
 
 	$query = '';
