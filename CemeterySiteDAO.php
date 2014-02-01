@@ -18,6 +18,25 @@ class CemeterySiteDAO {
 		return $cemetery_site;
 	}
 
+	public static function search($query) {
+		$mysql = new Database();
+		$mysql->connect();
+
+		$query = sprintf("SELECT * FROM sites WHERE name LIKE '%%%s%%'",
+						mysql_real_escape_string($query));
+
+		$result = $mysql->query($query);
+
+		$sites = array();
+		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			$sites[] = self::loadFromRow($row);
+		}
+
+		$mysql->disconnect();
+
+		return $sites;
+	}
+
 	public static function save($cemetery_site) {
 
 		$mysql = new Database();

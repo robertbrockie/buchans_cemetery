@@ -9,10 +9,6 @@
 
 class CemeteryScrapper {
 
-	// URL
-	const URL = 'http://cemetery.townofbuchans.nf.ca/row_a/row_a.html';
-
-
 	public function CemeteryScrapper() {
 		$this->COOKIE_FILE = dirname(__FILE__).'/cookie.txt';
 		$this->deleteCookies();
@@ -35,26 +31,43 @@ class CemeteryScrapper {
 	}
 
 	public function getCemeterySite() {
-		$dom = $this->fetch(self::URL);
 
-		// find the table rows containg sites
-		$trs = $dom->find('tr');
+		$urls = array(
+			'http://cemetery.townofbuchans.nf.ca/row_a/row_a.html',
+			'http://cemetery.townofbuchans.nf.ca/row_b/row_b.html',
+			'http://cemetery.townofbuchans.nf.ca/row_c/row_c.html',
+			'http://cemetery.townofbuchans.nf.ca/row_d/row_d.html',
+			'http://cemetery.townofbuchans.nf.ca/row_e/row_e.html',
+			'http://cemetery.townofbuchans.nf.ca/row_f/row_f.html',
+		);		
 
-		foreach ($trs as $tr) {
-			$cemetery_site = new CemeterySite();
-			$cemetery_site->setRow($this->cleanValue($tr->find('td', 0)->plaintext));
-			$cemetery_site->setPlot($this->cleanValue($tr->find('td', 1)->plaintext));
-			$cemetery_site->setName($this->cleanValue($tr->find('td', 2)->plaintext));
-			$cemetery_site->setNote($this->cleanValue($tr->find('td', 3)->plaintext));
+		foreach ($urls as $url) {
 
-			// find the headtone thumbnail image url
-			$thumbnail_image = $tr->find('img', 0);
-			if ($thumbnail_image) {
-				$cemetery_site->setThumbnailImage($thumbnail_image->src);
+			echo 'Scrapping url: '.$url."\n";
+
+			$dom = $this->fetch($url);
+
+			// find the table rows containg sites
+			$trs = $dom->find('tr');
+
+			foreach ($trs as $tr) {
+				$cemetery_site = new CemeterySite();
+				$cemetery_site->setRow($this->cleanValue($tr->find('td', 0)->plaintext));
+				$cemetery_site->setPlot($this->cleanValue($tr->find('td', 1)->plaintext));
+				$cemetery_site->setName($this->cleanValue($tr->find('td', 2)->plaintext));
+				$cemetery_site->setNote($this->cleanValue($tr->find('td', 3)->plaintext));
+
+				// find the headtone thumbnail image url
+				$thumbnail_image = $tr->find('img', 0);
+				if ($thumbnail_image) {
+					$cemetery_site->setThumbnailImage($thumbnail_image->src);
+				}
+
+				// Don't save the headers
+				if (CemeterySiteHelper::isValidSite($cemetery_site)) {
+					CemeterySiteDAO::save($cemetery_site);	
+				}
 			}
-			
-			CemeterySiteDAO::save($cemetery_site);
 		}
-
 	}
 }
