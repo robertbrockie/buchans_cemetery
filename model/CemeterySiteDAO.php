@@ -64,12 +64,14 @@ class CemeterySiteDAO {
 
 		// check to see if the site is already in the database
 		$query = sprintf("SELECT * FROM sites WHERE row = '%s' AND plot = '%s'",
-			mysql_real_escape_string($cemetery_site->getRow()),
-			mysql_real_escape_string($cemetery_site->getPlot()));
+			mysql_real_escape_string($row),
+			mysql_real_escape_string($plot));
 
 		$result = $mysql->query($query);
 
-		$row = mysql_fetch_assoc($result);
+		$row = mysql_fetch_array($result, MYSQL_ASSOC);
 		$mysql->disconnect();
+
+		return self::loadFromRow($row);
 	}
 }

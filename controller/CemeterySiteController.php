@@ -26,6 +26,9 @@ class CemeterySiteController {
 			case 'search_results':
 				$this->search_results($vals);
 				break;
+			case 'view_site':
+				$this->view_site($vals);
+				break;
 		}
 	}
 
@@ -50,11 +53,27 @@ class CemeterySiteController {
 	public function search_results($vals) {
 
 		$query = isset($vals['query']) ? $vals['query'] : '';
-		$results = $sites = CemeterySiteDAO::search($query);
+		$sites = CemeterySiteDAO::search($query);
 		
 		include('view/header.php');
 		include('view/search.php');
 		include('view/search_results.php');
 		include('view/footer.php');	
+	}
+
+	/**
+	*	View Site
+	**/
+	public function view_site($vals) {
+
+		$query = isset($vals['query']) ? $vals['query'] : '';
+		$row = isset($vals['row']) ? $vals['row'] : '';
+		$plot = isset($vals['plot']) ? $vals['plot'] : '';
+		$site = CemeterySiteDAO::getByRowAndPlot($row, $plot);
+		
+		include('view/header.php');
+		include('view/search.php');
+		include('view/view_site.php');
+		include('view/footer.php');
 	}
 }
