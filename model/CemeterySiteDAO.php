@@ -57,12 +57,32 @@ class CemeterySiteDAO {
 		$mysql->disconnect();
 	}
 
+	public static function update($cemetery_site) {
+
+		$mysql = new Database();
+		$mysql->connect();
+
+		$query = sprintf("UPDATE sites set row = '%s', plot = '%s', name = '%s', note = '%s', thumbnail_image = '%s', full_image = '%s' WHERE id = %d",
+			mysql_real_escape_string($cemetery_site->getRow()),
+			mysql_real_escape_string($cemetery_site->getPlot()),
+			mysql_real_escape_string($cemetery_site->getName()),
+			mysql_real_escape_string($cemetery_site->getNote()),
+			mysql_real_escape_string($cemetery_site->getThumbnailImage()),
+			mysql_real_escape_string($cemetery_site->getFullImage()),
+			mysql_real_escape_string($cemetery_site->getId()));
+
+		$mysql->query($query);
+
+		$mysql->disconnect();
+
+		return $cemetery_site;
+	}
+
 	public static function getByRowAndPlot($row, $plot) {
 
 		$mysql = new Database();
 		$mysql->connect();
 
-		// check to see if the site is already in the database
 		$query = sprintf("SELECT * FROM sites WHERE row = '%s' AND plot = '%s'",
 			mysql_real_escape_string($row),
 			mysql_real_escape_string($plot));
@@ -73,5 +93,23 @@ class CemeterySiteDAO {
 		$mysql->disconnect();
 
 		return self::loadFromRow($row);
+	}
+
+	public static function getAll() {
+		$mysql = new Database();
+		$mysql->connect();
+
+		$query = sprintf("SELECT * FROM sites");
+
+		$result = $mysql->query($query);
+
+		$sites = array();
+		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			$sites[] = self::loadFromRow($row);
+		}
+
+		$mysql->disconnect();
+
+		return $sites;
 	}
 }

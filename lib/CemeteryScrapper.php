@@ -75,4 +75,32 @@ class CemeteryScrapper {
 			}
 		}
 	}
+
+	public function getCemeterySiteFullImages() {
+		$sites = CemeterySiteDAO::getAll();
+
+		foreach($sites as $site) {
+			$url = 'http://cemetery.townofbuchans.nf.ca/row_'.strtolower($site->getRow()).'/plot'.strtolower($site->getRow()).sprintf("%02d", intval($site->getPlot())).'.htm';
+			
+			if ($this->url_exists($url)) {
+				$dom = $this->fetch($url);
+				
+				$full_image = $dom->find('img', 0);
+
+				if ($full_image) {
+					echo 'Updating site: '.$site->getId()."\n";
+					$site->setFullImage($full_image->src);
+					CemeterySiteDAO::update($site);
+				}
+			}
+		}
+	}
+
+	function url_exists($url){
+		$handle = curl_init($url);
+		curl_setopt($handle,  CURLOPT_RETURNTRANSFER, TRUE);
+		$response = curl_exec($handle);
+		$httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+		return ($httpCode == 200);
+	}
 }

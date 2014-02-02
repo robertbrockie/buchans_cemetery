@@ -17,7 +17,7 @@
 				<tr>
 					<td><?= $site->getRow() ?></td>
 					<td><?= $site->getPlot() ?></td>
-					<td><?= $site->getName() ?></td>
+					<td><a href="index.php?action=view_site&row=<?= $site->getRow() ?>&plot=<?= $site->getPlot() ?>"><?= $site->getName() ?></a></td>
 					<td><?= $site->getNote() ?></td>
 					<td><img src='<?= CemeterySiteHelper::getThumbnailURL($site) ?>'/></td>
 				</tr>

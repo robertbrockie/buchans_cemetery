@@ -1,10 +1,11 @@
 <?php
 
-include('SimpleHtmlDom.php');
-include('CemeteryScrapper.php');
-include('CemeterySite.php');
-include('CemeterySiteDAO.php');
-include('CemeterySiteHelper.php');
+include('lib/SimpleHtmlDom.php');
+include('lib/CemeteryScrapper.php');
+include('model/CemeterySite.php');
+include('model/CemeterySiteDAO.php');
+include('helper/CemeterySiteHelper.php');
 
 $scrapper = new CemeteryScrapper();
-$scrapper->getCemeterySite();
+//$scrapper->getCemeterySite();
+$scrapper->getCemeterySiteFullImages();
