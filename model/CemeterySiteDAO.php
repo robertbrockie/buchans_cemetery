@@ -1,6 +1,6 @@
 <?php
 
-include('../lib/Database.php');
+include('lib/Database.php');
 
 class CemeterySiteDAO {
 
